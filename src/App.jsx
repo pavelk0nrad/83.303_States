@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
 
 function App() {
@@ -10,6 +9,7 @@ function App() {
   const [count, setCount] = useState(0);
   const [timmer, setTimmer] = useState(0);
   const timerId = useRef(null);
+  const audioRef = useRef(null);
  
 
   function timmerStart() {
@@ -26,6 +26,7 @@ function App() {
       setTimmer(prevCount => {
         if (prevCount <= 0) {
           clearInterval(timerId.current);
+          audioRef.current.play();
           setStart(false);
           return 0;
         }
@@ -51,6 +52,7 @@ function App() {
     setCount(count -1);
   }
 
+
   function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -60,7 +62,6 @@ function App() {
     <>
     <h1>Timmer from Pavel K0nrad</h1>
       <h2 className="display">{!start ? formatTime(count * 60) : formatTime(timmer)}</h2>
-
       <div className="button-container">
         {start == false && <button onClick={increaseNum}>+</button>}
         {start == false && <button onClick={decreaseNum}>-</button>}
@@ -68,6 +69,7 @@ function App() {
             {start == false ? <button onClick={timmerStart}>Start</button> : <button onClick={timmerStop}>Stop</button>}
           </div>
       </div>
+      <audio ref={audioRef} src="../public/ring.wav" />
     </>
   )
 }
