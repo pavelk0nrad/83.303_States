@@ -10,6 +10,15 @@ function App() {
   const [timmer, setTimmer] = useState(0);
   const timerId = useRef(null);
   const audioRef = useRef(null);
+
+  setInterval(updateTime, 1000)
+  const now = new Date().toLocaleTimeString();
+  const [time, setTime] = useState(new Date().toLocaleTimeString());
+  
+  function updateTime(){
+    const newTime = new Date().toLocaleTimeString();
+    setTime(newTime)
+  }
  
 
   function timmerStart() {
@@ -61,6 +70,7 @@ function App() {
   return (
     <>
     <h1>Timmer from Pavel K0nrad</h1>
+    <p>{time}</p>
       <h2 className="display">{!start ? formatTime(count * 60) : formatTime(timmer)}</h2>
       <div className="button-container">
         {start == false && <button onClick={increaseNum}>+</button>}
@@ -69,7 +79,7 @@ function App() {
             {start == false ? <button onClick={timmerStart}>Start</button> : <button onClick={timmerStop}>Stop</button>}
           </div>
       </div>
-      <audio ref={audioRef} src="../public/ring.wav" />
+      <audio ref={audioRef} src="./ring.wav" />
     </>
   )
 }
